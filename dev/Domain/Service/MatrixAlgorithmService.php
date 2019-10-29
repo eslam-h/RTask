@@ -16,7 +16,6 @@ class MatrixAlgorithmService
      */
     public function encrypt($string)
     {
-        $matrixResult = [];
         $charBinaries = $this->convertStringToBinary($string);
         $encryptionMatrix = [
             [8.000, 4.000, 4.000, 8.000, 7.000, 8.000, 7.000, 1.000, 9.000, 4.000, 1.000, 1.000, 1.000, 6.000, 3.000,
