@@ -163,14 +163,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Package Service Providers...
-         */
-
-        'Barryvdh\TranslationManager\ManagerServiceProvider',
-        KKomelin\TranslatableStringExporter\Providers\ExporterServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-
-        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -179,18 +171,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        /**
-         * API Service provider
-         */
-        \Dev\Application\DependencyInjection\PlatformServiceProvider::class,
-        \Dev\Application\DependencyInjection\RoleServiceProvider::class,
-
-
-
-        /*
-         * CustomValidationRule Service Provider
-         */
-        \App\Providers\CustomValidationRulesServiceProvider::class
     ],
 
     /*
@@ -241,6 +221,5 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class,
     ],
 ];
