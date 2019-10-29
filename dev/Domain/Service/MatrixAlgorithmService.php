@@ -16,6 +16,7 @@ class MatrixAlgorithmService
      */
     public function encrypt($string)
     {
+        $matrixResult = [];
         $charBinaries = $this->convertStringToBinary($string);
         $encryptionMatrix = [
             [8.000, 4.000, 4.000, 8.000, 7.000, 8.000, 7.000, 1.000, 9.000, 4.000, 1.000, 1.000, 1.000, 6.000, 3.000,
@@ -52,9 +53,11 @@ class MatrixAlgorithmService
                 0.000]
         ];
 
-        $matrixResult = $this->multiply($charBinaries, $encryptionMatrix);
+        if ($charBinaries) {
+           return $this->multiply($charBinaries, $encryptionMatrix);
+        }
 
-        return $matrixResult;
+        return "Encryption Failed";
     }
 
     /**
@@ -144,22 +147,10 @@ class MatrixAlgorithmService
                 -0.029773768604971, -0.153276054566094, -0.084954401825375, 0.052024137604019]
         ];
 
-        $matrixResult = $this->multiply($charBinaries, $decryptionMatrix);
-        return $matrixResult;
-    }
-
-    /**
-     * @param $str
-     * @return string
-     */
-    public function hex2bin( $str ) {
-        $sbin = "";
-        $len = strlen( $str );
-        for ( $i = 0; $i < $len; $i += 2 ) {
-            $sbin .= pack( "H*", substr( $str, $i, 2 ) );
+        if ($charBinaries) {
+            return $this->multiply($charBinaries, $decryptionMatrix);
         }
-
-        return $sbin;
+        return "Decryption Failed";
     }
 
     /**
@@ -176,34 +167,19 @@ class MatrixAlgorithmService
         $matrixArrayCols = count($matrixArray[0]);
 
         if ($stringArrayCols != $matrixArrayRows) {
-            print("Matrices can not be multiplied <br>");
-        } else {
-//            $prod = array_fill(0, $matrixArrayCols, array_fill(0, $matrixArrayRows, 0));
-//            for ($i = 0; $i < $stringArrayRows; $i++) {
-//                for ($j = 0; $j < $matrixArrayCols; $j++) {
-//                    for ($k = 0; $k < $matrixArrayRows; $k++) {
-//                        $prod[$i][$j] = $prod[$i][$j] + $stringArray[$i][$k] * $matrixArray[$k][$j];
-//                    }
-//                }
-//            }
-//            for ($i = 0; $i < $stringArrayRows; $i++) {
-//                for ($j = 0; $j < $matrixArrayCols; $j++) {
-//                    $result[]=($prod[$i][$j]);
-//                }
-//            }
-//            return $result;
-            $prod = array_fill(0, $stringArrayRows, array_fill(0, $stringArrayCols, 0));
-            for ($i = 0; $i < $stringArrayRows; $i++) {
-                for ($j = 0; $j < $matrixArrayCols; $j++) {
-                    $value = 0;
-                    for ($k = 0; $k < $matrixArrayRows; $k++) {
-                        $value += $stringArray[$i][$k] * $matrixArray[$k][$j];
-                    }
-                    $prod[$i][$j] = $value;
-                }
-            }
-            return $prod;
+            return "Matrices can not be multiplied";
         }
+        $prod = array_fill(0, $stringArrayRows, array_fill(0, $stringArrayCols, 0));
+        for ($i = 0; $i < $stringArrayRows; $i++) {
+            for ($j = 0; $j < $matrixArrayCols; $j++) {
+                $value = 0;
+                for ($k = 0; $k < $matrixArrayRows; $k++) {
+                    $value += $stringArray[$i][$k] * $matrixArray[$k][$j];
+                }
+                $prod[$i][$j] = $value;
+            }
+        }
+        return $prod;
     }
 
     /**
@@ -214,6 +190,9 @@ class MatrixAlgorithmService
     {
         $binariesArray = [];
         for ($i = 0; $i < strlen($string); $i++) {
+            if (!ctype_alpha($string[$i])) {
+                continue;
+            }
             $arr = [0,0,0,0,0,0,0,0];
             $charAsciiValue =  ord($string[$i]);
             $binaryRepresentation = decbin($charAsciiValue);
