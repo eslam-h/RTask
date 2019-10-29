@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Dev\Domain\Service\MatrixAlgorithmService;
+use Dev\Domain\Service\ReverseEncryptionAlgorithmService;
 use Dev\Domain\Service\ShiftAlgorithmService;
 use Illuminate\Console\Command;
 
@@ -54,9 +55,11 @@ class EncryptDecrypt extends Command
 
             $matrixAlgorithmService = new MatrixAlgorithmService();
             ($method == 'Encrypt') ? $result = $matrixAlgorithmService->encrypt($string) : $result = $matrixAlgorithmService->decrypt($string);
+        } elseif ($algorithm == 'Reverse Algorithm') {
+            $reverseEncryptionAlgorithmService = new ReverseEncryptionAlgorithmService();
+            ($method == 'Encrypt') ? $result = ($reverseEncryptionAlgorithmService->encrypt($string))  : $result = ($reverseEncryptionAlgorithmService->decrypt($string));
         }
 
         $this->info("The result is '{$result}'");
-
     }
 }

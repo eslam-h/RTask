@@ -18,11 +18,15 @@ class ReverseEncryptionAlgorithmService
     {
         $url = "http://backendtask.robustastudio.com";
         $client = new \GuzzleHttp\Client(['base_uri' => $url]);
-        $res = $client->request('POST','/encode', [
-            'json' => ['string' => $string]
-        ]);
-        $responseJSON = json_decode($res->getBody(), true);
-        return $responseJSON['string'];
+        $res = $client->request(
+            'POST',
+            '/encode',
+            [
+                'json' => ['string' => $string]
+            ]
+        );
+        $response = json_decode($res->getBody(), true);
+        return $response["string"];
     }
 
     /**
@@ -35,10 +39,14 @@ class ReverseEncryptionAlgorithmService
     {
         $url = "http://backendtask.robustastudio.com";
         $client = new \GuzzleHttp\Client(['base_uri' => $url]);
-        $res = $client->request('POST','/decode', [
-            'json' => ['string' => $string]
-        ]);
-        $responseJSON = json_decode($res->getBody(), true);
-        return $responseJSON;
+        $res = $client->request(
+            'POST',
+            '/decode',
+            [
+                'json' => ['string' => $string]
+            ]
+        );
+        $response = json_decode($res->getBody(), true);
+        return $response["string"];
     }
 }
